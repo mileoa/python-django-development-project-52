@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ru-ru">
+  <head>
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  <body>
+    <nav>
+        {% block navigation %} {% include "navigation.html" %} {% endblock %}
+    </nav>
+    <div>
+        {% block content %}{% endblock %}
+    </div>
+    <footer>
+        {% block footer %} {% include "footer.html" %} {% endblock %}
+    </footer>
+  </body>
+</html>
