@@ -10,7 +10,7 @@ uv sync
 
 # Convert static asset files
 
-uv -v
+uv -V
 #uv run python -v
 #uv run python manage.py collectstatic --no-input
 
