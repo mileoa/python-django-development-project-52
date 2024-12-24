@@ -9,7 +9,10 @@ pip install uv
 uv sync
 
 # Convert static asset files
+
+uv -v
+#uv run python -v
 #uv run python manage.py collectstatic --no-input
 
 # Apply any outstanding database migrations
-uv run python manage.py migrate
+#uv run python manage.py migrate
