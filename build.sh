@@ -8,6 +8,8 @@ pip install uv
 # Create venv
 uv venv
 
+ls -a
+
 # Modify this line as needed for your package manager (pip, poetry, etc.)
 uv sync
 
