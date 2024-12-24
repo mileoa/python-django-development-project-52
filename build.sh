@@ -9,7 +9,7 @@ pip install uv
 uv venv
 
 # Activate venv
-./.venv/bin/activate
+source .venv/bin/activate
 
 # Modify this line as needed for your package manager (pip, poetry, etc.)
 uv sync
