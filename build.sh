@@ -5,6 +5,9 @@ set -o errexit
 # Install uv
 pip install uv
 
+# Create venv
+uv venv
+
 # Modify this line as needed for your package manager (pip, poetry, etc.)
 uv sync
 
