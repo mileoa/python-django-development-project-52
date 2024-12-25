@@ -2,14 +2,16 @@
 # Exit on error
 set -o errexit
 
+apt install pipx
+
 # Install uv
-pip install uv
+pipx install uv
 
 # Modify this line as needed for your package manager (pip, poetry, etc.)
 uv sync
 
 # Convert static asset files
-python manage.py collectstatic --no-input
+uv run python manage.py collectstatic --no-input
 
 # Apply any outstanding database migrations
-python manage.py migrate
+uv run python manage.py migrate
