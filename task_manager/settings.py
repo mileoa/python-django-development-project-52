@@ -31,6 +31,8 @@ SECRET_KEY = os.environ.get(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = "RENDER" not in os.environ
 
+AUTH_USER_MODEL = "users.User"
+
 ALLOWED_HOSTS = ["webserver"]
 if DEBUG:
     ALLOWED_HOSTS.append("localhost")
@@ -50,6 +52,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_bootstrap5",
+    "users",
 ]
 
 MIDDLEWARE = [
