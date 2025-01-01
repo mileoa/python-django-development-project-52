@@ -7,16 +7,21 @@
     <li class="nav-item">
       <a class="nav-link" href="/users/">Пользователи</a>
     </li>
-    
-  </ul>
-  <ul class="navbar-nav">
-    
+    {% if not user.is_authenticated %}
       <li class="nav-item">
-        <a class="nav-link" href="/login/">Вход</a>
+        <a class="nav-link" href="{% url 'login' %}">Вход</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/users/create/">Регистрация</a>
+        <a class="nav-link" href="{% url 'user_create' %}">Регистрация</a>
       </li>
-    
+    {% endif %}
   </ul>
+  {% if user.is_authenticated %}
+        <ul class="navbar-nav">
+          <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <input class="btn nav-link" type="submit" value="Выход">
+          </form>
+        </ul>
+      {% endif %}
 </div>

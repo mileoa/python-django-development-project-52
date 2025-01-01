@@ -1,0 +1,13 @@
+{% extends "base_template.html"%}
+{% load django_bootstrap5 %}
+
+{% block title %} Регистрация {% endblock %}
+
+{% block content %}
+<h1 class="my-4">Регистрация</h1>
+<form action="{% url 'user_create' %}" method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% bootstrap_button button_type="submit" content="Зарегестрироваться" %}
+</form>
+{% endblock %}

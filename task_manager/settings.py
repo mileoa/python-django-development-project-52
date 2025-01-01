@@ -32,6 +32,8 @@ SECRET_KEY = os.environ.get(
 DEBUG = "RENDER" not in os.environ
 
 AUTH_USER_MODEL = "users.User"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
 
 ALLOWED_HOSTS = ["webserver"]
 if DEBUG:

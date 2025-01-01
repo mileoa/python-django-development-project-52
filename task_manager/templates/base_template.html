@@ -12,6 +12,9 @@
         {% block navigation %} {% include "navigation.html" %} {% endblock %}
     </nav>
     <div class="container wrapper flex-grow-1">
+      {% if messages %}
+        {% bootstrap_messages %}
+      {% endif %}
         <h1 class="my-4"></h1>
         <h1 class="my-4"></h1>
         {% block content %}{% endblock %}
