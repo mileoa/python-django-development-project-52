@@ -1,14 +1,14 @@
 from django.test import TestCase
 from django.urls import reverse
-from users.models import User
+from users.models import Users
 
 
-class UserTests(TestCase):
+class UsersTests(TestCase):
 
     def test_user_create_get(self):
         response = self.client.get(reverse("user_create"))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "users/user_create.html")
+        self.assertTemplateUsed(response, "users/users_create.html")
 
     def test_user_create_post_invalid_data(self):
         response = self.client.post(
@@ -22,12 +22,12 @@ class UserTests(TestCase):
             },
         )
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "users/user_create.html")
-        self.assertQuerySetEqual(User.objects.all(), [])
+        self.assertTemplateUsed(response, "users/users_create.html")
+        self.assertQuerySetEqual(Users.objects.all(), [])
 
     def test_user_create_post_successful(self):
         self.assertEqual(
-            User.objects.filter(username="test_user_create_post_successful").count(), 0
+            Users.objects.filter(username="test_user_create_post_successful").count(), 0
         )
         response = self.client.post(
             reverse("user_create"),
@@ -41,7 +41,7 @@ class UserTests(TestCase):
         )
         self.assertRedirects(response, reverse("login"), 302)
         self.assertEqual(
-            User.objects.filter(username="test_user_create_post_successful").count(), 1
+            Users.objects.filter(username="test_user_create_post_successful").count(), 1
         )
 
     def test_user_create_post_successful_message_displays(self):
@@ -70,7 +70,7 @@ class UserTests(TestCase):
             },
         )
         self.assertEqual(
-            User.objects.filter(
+            Users.objects.filter(
                 username="test_user_create_post_user_already_exists"
             ).count(),
             1,
@@ -86,16 +86,16 @@ class UserTests(TestCase):
             },
         )
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "users/user_create.html")
+        self.assertTemplateUsed(response, "users/users_create.html")
         self.assertEqual(
-            User.objects.filter(
+            Users.objects.filter(
                 username="test_user_create_post_user_already_exists"
             ).count(),
             1,
         )
 
     def test_user_update_get_unlogined(self):
-        user = User.objects.create(
+        user = Users.objects.create(
             first_name="test",
             last_name="user",
             username="test_user_update_get_unlogined_message",
@@ -115,7 +115,7 @@ class UserTests(TestCase):
         self.assertRedirects(redirect_response, reverse("login"), 302)
 
     def test_user_update_get_logined_self(self):
-        user = User.objects.create(
+        user = Users.objects.create(
             first_name="test",
             last_name="user",
             username="test_user_update_get_logined_self",
@@ -125,17 +125,17 @@ class UserTests(TestCase):
         self.client.force_login(user)
         response = self.client.get(reverse("user_update", kwargs={"pk": user.pk}))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "users/user_update.html")
+        self.assertTemplateUsed(response, "users/users_update.html")
 
     def test_user_update_get_logined_not_self(self):
-        first_user = User.objects.create(
+        first_user = Users.objects.create(
             first_name="test",
             last_name="user",
             username="test_user_update_get_logined_self_1",
             email="test@google.ru",
             password="test12345678",
         )
-        second_user = User.objects.create(
+        second_user = Users.objects.create(
             first_name="test",
             last_name="user",
             username="test_user_update_get_logined_self_2",
@@ -153,13 +153,13 @@ class UserTests(TestCase):
             reverse("user_update", kwargs={"pk": second_user.pk}), follow=True
         )
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "users/user_list.html")
+        self.assertTemplateUsed(response, "users/users_list.html")
         self.assertContains(
             response, "У вас нет прав для изменения другого пользователя."
         )
 
     def test_user_update_post(self):
-        user = User.objects.create(
+        user = Users.objects.create(
             first_name="test",
             last_name="user",
             username="test_user_update_post_1",
@@ -180,13 +180,13 @@ class UserTests(TestCase):
         )
         self.assertContains(response, "Пользователь успешно изменен")
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "users/user_list.html")
+        self.assertTemplateUsed(response, "users/users_list.html")
         self.assertEqual(
-            User.objects.get(pk=user.pk).username, "test_user_update_post_2"
+            Users.objects.get(pk=user.pk).username, "test_user_update_post_2"
         )
 
     def test_user_delete_get_logined_self(self):
-        user = User.objects.create(
+        user = Users.objects.create(
             first_name="test",
             last_name="user",
             username="test_user_update_get_logined_self",
@@ -196,17 +196,17 @@ class UserTests(TestCase):
         self.client.force_login(user)
         response = self.client.get(reverse("user_delete", kwargs={"pk": user.pk}))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "users/user_delete.html")
+        self.assertTemplateUsed(response, "users/users_delete.html")
 
     def test_user_delete_get_logined_not_self(self):
-        first_user = User.objects.create(
+        first_user = Users.objects.create(
             first_name="test",
             last_name="user",
             username="test_user_delete_get_logined_not_self_1",
             email="test@google.ru",
             password="test12345678",
         )
-        second_user = User.objects.create(
+        second_user = Users.objects.create(
             first_name="test",
             last_name="user",
             username="test_user_delete_get_logined_not_self_2",
@@ -224,13 +224,13 @@ class UserTests(TestCase):
             reverse("user_delete", kwargs={"pk": second_user.pk}), follow=True
         )
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "users/user_list.html")
+        self.assertTemplateUsed(response, "users/users_list.html")
         self.assertContains(
             response, "У вас нет прав для изменения другого пользователя."
         )
 
     def test_user_delete_post(self):
-        user = User.objects.create(
+        user = Users.objects.create(
             first_name="test",
             last_name="user",
             username="test_user_delete_post",
@@ -244,5 +244,5 @@ class UserTests(TestCase):
         )
         self.assertContains(response, "Пользователь успешно удален")
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "users/user_list.html")
-        self.assertEqual(User.objects.filter(pk=user.pk).count(), 0)
+        self.assertTemplateUsed(response, "users/users_list.html")
+        self.assertEqual(Users.objects.filter(pk=user.pk).count(), 0)

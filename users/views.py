@@ -11,19 +11,18 @@ from django.views.generic import (
     DeleteView,
 )
 
-from .models import User
+from .models import Users
 from .forms import UserForm
-
-PERMISSION_DENIED_NO_LOGIN_MESSAGE = "Вы не авторизованы! Пожалуйста, выполните вход."
-PERMISSION_DENIED_NO_RIGHTS_MESSAGE = (
-    "У вас нет прав для изменения другого пользователя."
+from task_manager.constants import (
+    PERMISSION_DENIED_NO_LOGIN_MESSAGE,
+    PERMISSION_DENIED_NO_RIGHTS_MESSAGE,
 )
 
 
 class IndexUserView(ListView):
 
     http_method_names = ["get"]
-    model = User
+    model = Users
     context_object_name = "users"
 
 
@@ -32,7 +31,7 @@ class CreateUserView(SuccessMessageMixin, CreateView):
     # CreateView
     http_method_names = ["get", "post"]
     form_class = UserForm
-    template_name = "users/user_create.html"
+    template_name = "users/users_create.html"
     success_url = reverse_lazy("login")
     # SuccessMessageMixin
     success_message = "Пользователь успешно зарегистрирован"
@@ -58,9 +57,9 @@ class UpdateUserView(DeleteUpdateUserRulesMixin, SuccessMessageMixin, UpdateView
 
     # UpdateView
     http_method_names = ["get", "post"]
-    model = User
+    model = Users
     form_class = UserForm
-    template_name = "users/user_update.html"
+    template_name = "users/users_update.html"
     success_url = reverse_lazy("user_list")
     # SuccessMessageMixin
     success_message = "Пользователь успешно изменен"
@@ -70,8 +69,8 @@ class DeleteUserView(DeleteUpdateUserRulesMixin, SuccessMessageMixin, DeleteView
 
     # DeleteView
     http_method_names = ["get", "post"]
-    model = User
-    template_name = "users/user_delete.html"
+    model = Users
+    template_name = "users/users_delete.html"
     success_url = reverse_lazy("user_list")
     # SuccessMessageMixin
     success_message = "Пользователь успешно удален"
