@@ -1,18 +1,24 @@
 from django.shortcuts import HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import (
+    ListView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+)
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import ProtectedError
 from task_manager.constants import PERMISSION_DENIED_NO_LOGIN_MESSAGE
-from .models import Statuses
+from .forms import LabelsForm
+from .models import Labels
 
 
-class CommonStatusMixin(LoginRequiredMixin, SuccessMessageMixin):
+class CommonLabelMixin(LoginRequiredMixin, SuccessMessageMixin):
 
     login_url = reverse_lazy("login")
-    model = Statuses
+    model = Labels
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -23,54 +29,54 @@ class CommonStatusMixin(LoginRequiredMixin, SuccessMessageMixin):
         return super().dispatch(request, *args, **kwargs)
 
 
-class IndexStatusView(CommonStatusMixin, ListView):
+class IndexLabelView(CommonLabelMixin, ListView):
 
     http_method_names = ["get"]
-    context_object_name = "statuses"
+    context_object_name = "labels"
 
 
-class CreateStatusView(CommonStatusMixin, CreateView):
+class CreateLabelView(CommonLabelMixin, CreateView):
 
     # CreateView
     http_method_names = ["get", "post"]
-    template_name = "statuses/statuses_create.html"
-    success_url = reverse_lazy("status_list")
-    fields = ["name"]
+    template_name = "labels/labels_create.html"
+    success_url = reverse_lazy("label_list")
+    form_class = LabelsForm
     # SuccessMessageMixin
-    success_message = "Статус успешно создан"
+    success_message = "Метка успешно создана"
 
 
-class UpdateStatusView(CommonStatusMixin, UpdateView):
+class UpdateLabelView(CommonLabelMixin, UpdateView):
 
     # UpdateView
     http_method_names = ["get", "post"]
-    template_name = "statuses/statuses_update.html"
-    success_url = reverse_lazy("status_list")
-    fields = ["name"]
-    context_object_name = "status"
+    template_name = "labels/labels_update.html"
+    success_url = reverse_lazy("label_list")
+    form_class = LabelsForm
+    context_object_name = "label"
     # SuccessMessageMixin
-    success_message = "Статус успешно изменен"
+    success_message = "Метка успешно изменена"
 
 
-class DeleteStatusView(CommonStatusMixin, DeleteView):
+class DeleteLabelView(CommonLabelMixin, DeleteView):
 
     # DeleteView
     http_method_names = ["get", "post"]
-    template_name = "statuses/statuses_delete.html"
-    context_object_name = "status"
-    success_url = reverse_lazy("status_list")
+    template_name = "labels/labels_delete.html"
+    context_object_name = "label"
+    success_url = reverse_lazy("label_list")
 
     def post(self, request, *args, **kwargs):
         try:
             self.object = self.get_object()
             success_url = self.get_success_url()
             self.object.delete()
-            messages.add_message(request, messages.SUCCESS, "Статус успешно удален")
+            messages.add_message(request, messages.SUCCESS, "Метка успешно удалена")
             return HttpResponseRedirect(success_url)
         except ProtectedError:
             messages.add_message(
                 request,
                 messages.ERROR,
-                "Невозможно удалить статус, потому что он используется",
+                "Невозможно удалить метку, потому что она используется",
             )
-            return HttpResponseRedirect(reverse_lazy("status_list"))
+            return HttpResponseRedirect(reverse_lazy("label_list"))
