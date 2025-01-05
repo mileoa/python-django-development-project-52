@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
+from django.db.models import ProtectedError
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (
     TemplateView,
@@ -72,5 +73,20 @@ class DeleteUserView(DeleteUpdateUserRulesMixin, SuccessMessageMixin, DeleteView
     model = Users
     template_name = "users/users_delete.html"
     success_url = reverse_lazy("user_list")
-    # SuccessMessageMixin
-    success_message = "Пользователь успешно удален"
+
+    def post(self, request, *args, **kwargs):
+        try:
+            self.object = self.get_object()
+            success_url = self.get_success_url()
+            self.object.delete()
+            messages.add_message(
+                request, messages.SUCCESS, "Пользователь успешно удален"
+            )
+            return HttpResponseRedirect(success_url)
+        except ProtectedError:
+            messages.add_message(
+                request,
+                messages.ERROR,
+                "Невозможно удалить пользователя, потому что он используется",
+            )
+            return HttpResponseRedirect(reverse_lazy("task_list"))
