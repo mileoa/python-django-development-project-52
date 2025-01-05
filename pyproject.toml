@@ -14,4 +14,5 @@ dependencies = [
     "uv>=0.5.12",
     "psycopg2-binary>=2.9.10",
     "python-dotenv>=1.0.1",
+    "django-filter>=24.3",
 ]

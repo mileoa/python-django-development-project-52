@@ -7,6 +7,7 @@ from django.views.generic import (
     DeleteView,
     DetailView,
 )
+from django_filters.views import FilterView
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
@@ -14,6 +15,7 @@ from django.db.models import ProtectedError
 from task_manager.constants import PERMISSION_DENIED_NO_LOGIN_MESSAGE
 from .models import Tasks
 from .forms import TasksForm
+from .filters import TasksFilter
 
 
 class CommonTaskMixin(LoginRequiredMixin, SuccessMessageMixin):
@@ -30,10 +32,11 @@ class CommonTaskMixin(LoginRequiredMixin, SuccessMessageMixin):
         return super().dispatch(request, *args, **kwargs)
 
 
-class IndexTaskView(CommonTaskMixin, ListView):
+class IndexTaskView(CommonTaskMixin, FilterView):
 
     http_method_names = ["get"]
     context_object_name = "tasks"
+    filterset_class = TasksFilter
 
 
 class DetailTaskView(CommonTaskMixin, DetailView):
