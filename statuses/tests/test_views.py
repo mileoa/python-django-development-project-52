@@ -107,14 +107,22 @@ class TaskManagerTests(TestCase):
         )
 
     def test_login_required(self):
-        request_variants = {
-            "status_list": ["get"],
-            "status_create": ["get", "post"],
+        status = Statuses.objects.create(name="test_login_required")
+        request_without_id = {"status_list": ["get"], "status_create": ["get", "post"]}
+        request_with_id = {
+            "status_delete": ["get", "post"],
+            "status_update": ["get", "post"],
         }
+        request_variants = request_without_id | request_with_id
         for url_name, methods in request_variants.items():
             for method in methods:
                 prepared_reqest = getattr(self.client, method)
-                response = prepared_reqest(reverse(url_name), follow=True)
+                if url_name in request_without_id:
+                    response = prepared_reqest(reverse(url_name), follow=True)
+                else:
+                    response = prepared_reqest(
+                        reverse(url_name, kwargs={"pk": status.id}), follow=True
+                    )
                 self.assertTemplateUsed(response, "registration/login.html")
                 self.assertContains(
                     response, "Вы не авторизованы! Пожалуйста, выполните вход."
