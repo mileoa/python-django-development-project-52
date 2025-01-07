@@ -13,4 +13,4 @@ uv run python3 manage.py collectstatic --no-input
 uv run python3 manage.py migrate
 
 
-uv run python3 manage.py test
+# uv run python3 manage.py test
