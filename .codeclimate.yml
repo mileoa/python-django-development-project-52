@@ -1,0 +1,6 @@
+exclude_patterns:
+- "migrations/"
+- "admin.py"
+- "urls.py"
+- "models.py"
+- "tests/"
