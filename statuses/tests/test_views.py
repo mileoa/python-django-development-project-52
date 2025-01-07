@@ -5,7 +5,7 @@ from statuses.models import Statuses
 from tasks.models import Tasks
 
 
-class TaskManagerTests(TestCase):
+class StatusesTests(TestCase):
 
     def setUp(self):
         self.user = Users.objects.create(
