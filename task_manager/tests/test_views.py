@@ -1,7 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
 from users.models import Users
-from django.contrib import auth
 
 
 class TaskManagerTests(TestCase):
