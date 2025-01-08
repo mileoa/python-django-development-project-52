@@ -6,6 +6,6 @@
 <form action="{% url 'user_create' %}" method="post">
     {% csrf_token %}
     {% bootstrap_form form %}
-    {% bootstrap_button button_type="submit" content="Зарегестрироваться" %}
+    {% bootstrap_button button_type="submit" content="Зарегистрировать" %}
 </form>
 {% endblock %}
