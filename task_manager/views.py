@@ -4,6 +4,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from task_manager.forms import CustomLoginForm
 
 
 class MainIndexView(TemplateView):
@@ -14,6 +15,7 @@ class MainIndexView(TemplateView):
 
 class CustomLoginView(SuccessMessageMixin, LoginView):
     success_message = "Вы залогинены"
+    form_class = CustomLoginForm
 
 
 class CustomLogoutView(SuccessMessageMixin, LogoutView):
