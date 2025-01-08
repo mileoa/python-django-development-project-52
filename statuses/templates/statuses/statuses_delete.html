@@ -6,6 +6,6 @@
 <p>Вы уверены что хотите удалить {{ status.name }}?</p>
 <form action="{% url 'status_delete' pk=status.id %}" method="post">
     {% csrf_token %}
-    {% bootstrap_button "Да, Удалить" button_type="submit" button_class="btn-danger" %}
+    {% bootstrap_button "Да, удалить" button_type="submit" button_class="btn-danger" %}
 </form>
 {% endblock %}
