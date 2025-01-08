@@ -1,11 +1,9 @@
-from django.shortcuts import render, redirect, HttpResponseRedirect
-from django.urls import reverse, reverse_lazy
+from django.shortcuts import redirect, HttpResponseRedirect
+from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.db.models import ProtectedError
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (
-    TemplateView,
     ListView,
     UpdateView,
     CreateView,
