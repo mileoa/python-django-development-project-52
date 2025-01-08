@@ -3,6 +3,7 @@ name = "hexlet-code"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
+packages = [{include = "task_manager"}]
 requires-python = ">=3.11.11"
 dependencies = [
     "dj-database-url>=2.3.0",
