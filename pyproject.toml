@@ -26,4 +26,4 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-packages = ["task_manager"]
+packages = ["task_manager", "users", "labels", "statuses", "tasks"]
