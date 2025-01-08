@@ -211,7 +211,7 @@ wheels = [
 [[package]]
 name = "hexlet-code"
 version = "0.1.0"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "coverage" },
     { name = "dj-database-url" },
@@ -223,6 +223,7 @@ dependencies = [
     { name = "pytest-django" },
     { name = "python-dotenv" },
     { name = "rollbar" },
+    { name = "setuptools" },
     { name = "uv" },
     { name = "uvicorn" },
     { name = "whitenoise" },
@@ -240,6 +241,7 @@ requires-dist = [
     { name = "pytest-django", specifier = ">=4.9.0" },
     { name = "python-dotenv", specifier = ">=1.0.1" },
     { name = "rollbar", specifier = ">=1.1.0" },
+    { name = "setuptools", specifier = ">=75.7.0" },
     { name = "uv", specifier = ">=0.5.12" },
     { name = "uvicorn", specifier = ">=0.34.0" },
     { name = "whitenoise", specifier = ">=6.8.2" },
@@ -385,6 +387,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/38/14/3f601ae9a3b78db79bd0b1623ed5d631054465bc9011e9e4166fd40a1306/rollbar-1.1.0.tar.gz", hash = "sha256:0894302f7caf3d1f16c84ae3d609dc6385fcdba95ae78c9af1f4809a7dd44a89", size = 83286 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/fc/06/a5984faac8984cc89c3308be224e4bfe4eab544f31cbb9a7a34a64233425/rollbar-1.1.0-py3-none-any.whl", hash = "sha256:a39634cdd53a8ae3ebdb850c0075da8fd88154bea356acee738b52aef79ec384", size = 114810 },
+]
+
+[[package]]
+name = "setuptools"
+version = "75.7.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/ac/57/e6f0bde5a2c333a32fbcce201f906c1fd0b3a7144138712a5e9d9598c5ec/setuptools-75.7.0.tar.gz", hash = "sha256:886ff7b16cd342f1d1defc16fc98c9ce3fde69e087a4e1983d7ab634e5f41f4f", size = 1338616 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/4e/6e/abdfaaf5c294c553e7a81cf5d801fbb4f53f5c5b6646de651f92a2667547/setuptools-75.7.0-py3-none-any.whl", hash = "sha256:84fb203f278ebcf5cd08f97d3fb96d3fbed4b629d500b29ad60d11e00769b183", size = 1224467 },
 ]
 
 [[package]]
