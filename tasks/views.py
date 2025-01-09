@@ -11,7 +11,6 @@ from django_filters.views import FilterView
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.db.models import ProtectedError
 from task_manager.constants import PERMISSION_DENIED_NO_LOGIN_MESSAGE
 from .models import Tasks
 from .forms import TasksForm
@@ -71,32 +70,26 @@ class UpdateTaskView(CommonTaskMixin, UpdateView):
     success_message = "Задача успешно изменена"
 
 
-class DeleteTaskView(CommonTaskMixin, DeleteView):
+class DeleteTaskView(LoginRequiredMixin, DeleteView):
 
     # DeleteView
     http_method_names = ["get", "post"]
     template_name = "tasks/tasks_delete.html"
     context_object_name = "task"
     success_url = reverse_lazy("task_list")
+    login_url = reverse_lazy("login")
+    model = Tasks
 
-    def post(self, request, *args, **kwargs):
-        try:
-            self.object = self.get_object()
-            success_url = self.get_success_url()
+    def has_permission(self) -> bool:
+        return self.get_object().author.pk == self.request.user.pk
 
-            if self.object.author.pk != self.request.user.pk:
-                messages.add_message(
-                    request, messages.ERROR, "Задачу может удалить только ее автор"
-                )
-                return HttpResponseRedirect(reverse_lazy("task_list"))
-
-            self.object.delete()
-            messages.add_message(request, messages.SUCCESS, "Задача успешно удалена")
-            return HttpResponseRedirect(success_url)
-        except ProtectedError:
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
             messages.add_message(
-                request,
-                messages.ERROR,
-                "Невозможно удалить задачу, потому что она используется",
+                request, messages.ERROR, PERMISSION_DENIED_NO_LOGIN_MESSAGE
             )
+            return self.handle_no_permission()
+        if not self.has_permission():
+            messages.error(request, "Задачу может удалить только ее автор")
             return HttpResponseRedirect(reverse_lazy("task_list"))
+        return super().dispatch(request, *args, **kwargs)
