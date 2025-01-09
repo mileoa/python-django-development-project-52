@@ -5,7 +5,8 @@ from users.models import Users
 
 class CustomLoginForm(AuthenticationForm):
     username = forms.CharField(
-        label="Имя пользователя", widget=forms.TextInput(attrs={"class": "form-input"})
+        label="Имя пользователя",
+        widget=forms.TextInput(attrs={"class": "form-input"}),
     )
     password = forms.CharField(
         label="Пароль",

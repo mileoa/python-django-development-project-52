@@ -1,16 +1,15 @@
-from django.shortcuts import render, HttpResponseRedirect
+from django.shortcuts import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import (
-    ListView,
     CreateView,
     UpdateView,
     DeleteView,
     DetailView,
 )
-from django_filters.views import FilterView
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django_filters.views import FilterView
 from task_manager.constants import PERMISSION_DENIED_NO_LOGIN_MESSAGE
 from .models import Tasks
 from .forms import TasksForm

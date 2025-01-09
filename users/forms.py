@@ -9,7 +9,8 @@ class UserForm(UserCreationForm):
     last_name = forms.CharField(label="Фамилия")
     username = forms.CharField(
         label="Имя пользователя",
-        help_text="Обязательное поле. Не более 150 символов. Только буквы, цифры и символы @/./+/-/_.",
+        help_text="Обязательное поле. Не более 150 символов."
+        "Только буквы, цифры и символы @/./+/-/_.",
     )
     password1 = forms.CharField(
         label="Пароль",

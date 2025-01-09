@@ -71,7 +71,9 @@ class DeleteLabelView(CommonLabelMixin, DeleteView):
             self.object = self.get_object()
             success_url = self.get_success_url()
             self.object.delete()
-            messages.add_message(request, messages.SUCCESS, "Метка успешно удалена")
+            messages.add_message(
+                request, messages.SUCCESS, "Метка успешно удалена"
+            )
             return HttpResponseRedirect(success_url)
         except ProtectedError:
             messages.add_message(

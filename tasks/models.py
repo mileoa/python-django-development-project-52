@@ -10,10 +10,16 @@ class Tasks(models.Model):
     name = models.CharField(max_length=255, unique=True, verbose_name="Имя")
     description = models.TextField(blank=True, verbose_name="Описание")
     status = models.ForeignKey(
-        Statuses, on_delete=models.PROTECT, related_name="status", verbose_name="Статус"
+        Statuses,
+        on_delete=models.PROTECT,
+        related_name="status",
+        verbose_name="Статус",
     )
     author = models.ForeignKey(
-        Users, on_delete=models.PROTECT, related_name="author", verbose_name="Автор"
+        Users,
+        on_delete=models.PROTECT,
+        related_name="author",
+        verbose_name="Автор",
     )
     executor = models.ForeignKey(
         Users,
@@ -31,7 +37,9 @@ class Tasks(models.Model):
         blank=True,
         verbose_name="Метки",
     )
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+    created_at = models.DateTimeField(
+        auto_now_add=True, verbose_name="Дата создания"
+    )
 
     def __str__(self):
         return self.name

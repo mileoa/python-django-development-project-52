@@ -35,7 +35,9 @@ class LabelsTests(TestCase):
     def test_post_label_create(self):
         self.client.force_login(Users.objects.get(id=1))
         response = self.client.post(
-            reverse("label_create"), {"name": "test_post_label_create"}, follow=True
+            reverse("label_create"),
+            {"name": "test_post_label_create"},
+            follow=True,
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "labels/labels_list.html")
@@ -47,7 +49,9 @@ class LabelsTests(TestCase):
     def test_get_label_delete(self):
         label = Labels.objects.create(name="test_get_label_delete")
         self.client.force_login(Users.objects.get(id=1))
-        response = self.client.get(reverse("label_delete", kwargs={"pk": label.id}))
+        response = self.client.get(
+            reverse("label_delete", kwargs={"pk": label.id})
+        )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "labels/labels_delete.html")
 
@@ -61,14 +65,19 @@ class LabelsTests(TestCase):
         self.assertTemplateUsed(response, "labels/labels_list.html")
         self.assertContains(response, "Метка успешно удалена")
         self.assertEqual(
-            Labels.objects.filter(name="test_post_label_delete_unrelated").count(), 0
+            Labels.objects.filter(
+                name="test_post_label_delete_unrelated"
+            ).count(),
+            0,
         )
 
     def test_post_label_delete_related(self):
         status = Statuses.objects.create(name="test_post_label_delete_related")
         label = Labels.objects.create(name="test_post_label_delete_related")
         task = Tasks.objects.create(
-            name="test_post_label_delete_related", author=self.user, status=status
+            name="test_post_label_delete_related",
+            author=self.user,
+            status=status,
         )
         task.labels.add(label)
         self.client.force_login(Users.objects.get(id=1))
@@ -81,13 +90,18 @@ class LabelsTests(TestCase):
             response, "Невозможно удалить метку, потому что она используется"
         )
         self.assertEqual(
-            Labels.objects.filter(name="test_post_label_delete_related").count(), 1
+            Labels.objects.filter(
+                name="test_post_label_delete_related"
+            ).count(),
+            1,
         )
 
     def test_get_label_update(self):
         label = Labels.objects.create(name="test_get_label_update")
         self.client.force_login(Users.objects.get(id=1))
-        response = self.client.get(reverse("label_update", kwargs={"pk": label.id}))
+        response = self.client.get(
+            reverse("label_update", kwargs={"pk": label.id})
+        )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "labels/labels_update.html")
 
@@ -106,12 +120,18 @@ class LabelsTests(TestCase):
             Labels.objects.filter(name="test_post_label_update").count(), 0
         )
         self.assertEqual(
-            Labels.objects.filter(name="another test_post_label_update").count(), 1
+            Labels.objects.filter(
+                name="another test_post_label_update"
+            ).count(),
+            1,
         )
 
     def test_login_required(self):
         label = Labels.objects.create(name="test_login_required")
-        request_without_id = {"label_list": ["get"], "label_create": ["get", "post"]}
+        request_without_id = {
+            "label_list": ["get"],
+            "label_create": ["get", "post"],
+        }
         request_with_id = {
             "label_delete": ["get", "post"],
             "label_update": ["get", "post"],

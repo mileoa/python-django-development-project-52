@@ -27,7 +27,10 @@ class UsersTests(TestCase):
 
     def test_user_create_post_successful(self):
         self.assertEqual(
-            Users.objects.filter(username="test_user_create_post_successful").count(), 0
+            Users.objects.filter(
+                username="test_user_create_post_successful"
+            ).count(),
+            0,
         )
         response = self.client.post(
             reverse("user_create"),
@@ -41,7 +44,10 @@ class UsersTests(TestCase):
         )
         self.assertRedirects(response, reverse("login"), 302)
         self.assertEqual(
-            Users.objects.filter(username="test_user_create_post_successful").count(), 1
+            Users.objects.filter(
+                username="test_user_create_post_successful"
+            ).count(),
+            1,
         )
 
     def test_user_create_post_successful_message_displays(self):
@@ -123,7 +129,9 @@ class UsersTests(TestCase):
             password="test12345678",
         )
         self.client.force_login(user)
-        response = self.client.get(reverse("user_update", kwargs={"pk": user.pk}))
+        response = self.client.get(
+            reverse("user_update", kwargs={"pk": user.pk})
+        )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "users/users_update.html")
 
@@ -194,7 +202,9 @@ class UsersTests(TestCase):
             password="test12345678",
         )
         self.client.force_login(user)
-        response = self.client.get(reverse("user_delete", kwargs={"pk": user.pk}))
+        response = self.client.get(
+            reverse("user_delete", kwargs={"pk": user.pk})
+        )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "users/users_delete.html")
 

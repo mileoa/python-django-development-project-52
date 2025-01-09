@@ -52,7 +52,9 @@ class DeleteUpdateUserRulesMixin:
         return super().dispatch(request, *args, **kwargs)
 
 
-class UpdateUserView(DeleteUpdateUserRulesMixin, SuccessMessageMixin, UpdateView):
+class UpdateUserView(
+    DeleteUpdateUserRulesMixin, SuccessMessageMixin, UpdateView
+):
 
     # UpdateView
     http_method_names = ["get", "post"]
@@ -64,7 +66,9 @@ class UpdateUserView(DeleteUpdateUserRulesMixin, SuccessMessageMixin, UpdateView
     success_message = "Пользователь успешно изменен"
 
 
-class DeleteUserView(DeleteUpdateUserRulesMixin, SuccessMessageMixin, DeleteView):
+class DeleteUserView(
+    DeleteUpdateUserRulesMixin, SuccessMessageMixin, DeleteView
+):
 
     # DeleteView
     http_method_names = ["get", "post"]

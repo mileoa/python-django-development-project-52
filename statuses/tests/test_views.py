@@ -34,7 +34,9 @@ class StatusesTests(TestCase):
     def test_post_status_create(self):
         self.client.force_login(Users.objects.get(id=1))
         response = self.client.post(
-            reverse("status_create"), {"name": "test_post_status_create"}, follow=True
+            reverse("status_create"),
+            {"name": "test_post_status_create"},
+            follow=True,
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "statuses/statuses_list.html")
@@ -46,12 +48,16 @@ class StatusesTests(TestCase):
     def test_get_status_delete(self):
         status = Statuses.objects.create(name="test_get_status_delete")
         self.client.force_login(Users.objects.get(id=1))
-        response = self.client.get(reverse("status_delete", kwargs={"pk": status.id}))
+        response = self.client.get(
+            reverse("status_delete", kwargs={"pk": status.id})
+        )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "statuses/statuses_delete.html")
 
     def test_post_status_delete_unrelated(self):
-        status = Statuses.objects.create(name="test_post_status_delete_unrelated")
+        status = Statuses.objects.create(
+            name="test_post_status_delete_unrelated"
+        )
         self.client.force_login(Users.objects.get(id=1))
         response = self.client.post(
             reverse("status_delete", kwargs={"pk": status.id}), follow=True
@@ -60,13 +66,18 @@ class StatusesTests(TestCase):
         self.assertTemplateUsed(response, "statuses/statuses_list.html")
         self.assertContains(response, "Статус успешно удален")
         self.assertEqual(
-            Statuses.objects.filter(name="test_post_status_delete_unrelated").count(), 0
+            Statuses.objects.filter(
+                name="test_post_status_delete_unrelated"
+            ).count(),
+            0,
         )
 
     def test_post_status_delete_related(self):
         status = Statuses.objects.create(name="test_post_status_delete_related")
         task = Tasks.objects.create(
-            name="test_post_status_delete_related", author=self.user, status=status
+            name="test_post_status_delete_related",
+            author=self.user,
+            status=status,
         )
         self.client.force_login(Users.objects.get(id=1))
         response = self.client.post(
@@ -78,13 +89,18 @@ class StatusesTests(TestCase):
             response, "Невозможно удалить статус, потому что он используется"
         )
         self.assertEqual(
-            Statuses.objects.filter(name="test_post_status_delete_related").count(), 1
+            Statuses.objects.filter(
+                name="test_post_status_delete_related"
+            ).count(),
+            1,
         )
 
     def test_get_status_update(self):
         status = Statuses.objects.create(name="test_get_status_update")
         self.client.force_login(Users.objects.get(id=1))
-        response = self.client.get(reverse("status_update", kwargs={"pk": status.id}))
+        response = self.client.get(
+            reverse("status_update", kwargs={"pk": status.id})
+        )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "statuses/statuses_update.html")
 
@@ -103,12 +119,18 @@ class StatusesTests(TestCase):
             Statuses.objects.filter(name="test_post_status_update").count(), 0
         )
         self.assertEqual(
-            Statuses.objects.filter(name="another test_post_status_update").count(), 1
+            Statuses.objects.filter(
+                name="another test_post_status_update"
+            ).count(),
+            1,
         )
 
     def test_login_required(self):
         status = Statuses.objects.create(name="test_login_required")
-        request_without_id = {"status_list": ["get"], "status_create": ["get", "post"]}
+        request_without_id = {
+            "status_list": ["get"],
+            "status_create": ["get", "post"],
+        }
         request_with_id = {
             "status_delete": ["get", "post"],
             "status_update": ["get", "post"],
