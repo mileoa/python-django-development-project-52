@@ -70,7 +70,7 @@ class UpdateTaskView(CommonTaskMixin, UpdateView):
     success_message = "Задача успешно изменена"
 
 
-class DeleteTaskView(LoginRequiredMixin, DeleteView):
+class DeleteTaskView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
 
     # DeleteView
     http_method_names = ["get", "post"]
@@ -79,6 +79,8 @@ class DeleteTaskView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy("task_list")
     login_url = reverse_lazy("login")
     model = Tasks
+
+    success_message = "Задача успешно удалена"
 
     def has_permission(self) -> bool:
         return self.get_object().author.pk == self.request.user.pk
