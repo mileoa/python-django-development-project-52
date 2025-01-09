@@ -74,7 +74,7 @@ class StatusesTests(TestCase):
 
     def test_post_status_delete_related(self):
         status = Statuses.objects.create(name="test_post_status_delete_related")
-        task = Tasks.objects.create(
+        Tasks.objects.create(
             name="test_post_status_delete_related",
             author=self.user,
             status=status,
